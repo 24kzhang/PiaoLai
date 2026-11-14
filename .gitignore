@@ -1,5 +1,7 @@
 /zzz/
 /.idea/
-/nginx-1.18.0/
 /target/
-/nginx-1.18.0/html/hmdp/
+/nginx-1.18.0/logs/
+/nginx-1.18.0/temp/
+/target/
+/nginx-1.18.0/
