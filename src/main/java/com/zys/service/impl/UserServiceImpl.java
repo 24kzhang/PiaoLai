@@ -1,9 +1,11 @@
 package com.zys.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zys.dto.LoginFormDTO;
 import com.zys.dto.Result;
+import com.zys.dto.UserDTO;
 import com.zys.entity.User;
 import com.zys.mapper.UserMapper;
 import com.zys.service.IUserService;
@@ -62,8 +64,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
 
         //7.保存用户信息到session
-        session.setAttribute("user",user);
-
+        session.setAttribute("user", BeanUtil.copyProperties(user, UserDTO.class));
         return Result.ok();
     }
 
