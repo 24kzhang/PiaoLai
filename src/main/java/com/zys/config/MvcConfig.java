@@ -1,6 +1,7 @@
 package com.zys.config;
 
 import com.zys.utils.LoginInterceptor;
+import com.zys.utils.RefreshTokenInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -16,7 +17,11 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor(stringRedisTemplate))
+        // 添加刷新令牌的拦截器,拦截所有请求
+        registry.addInterceptor(new RefreshTokenInterceptor(stringRedisTemplate)).order(0);
+
+        // 添加登录拦截器,拦截所有请求
+        registry.addInterceptor(new LoginInterceptor())
                 .excludePathPatterns(
                         "/user/code",
                         "/user/login",
@@ -25,6 +30,7 @@ public class MvcConfig implements WebMvcConfigurer {
                         "/shop-type/**",
                         "/upload/**",
                         "/voucher/**"
-                );
+                ).order(1);
+
     }
 }
