@@ -6,3 +6,5 @@
 /target/
 /nginx-1.18.0/
 /.workbuddy/
+.DS_Store
+/config/application.yaml
