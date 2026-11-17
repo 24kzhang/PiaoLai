@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.zys</groupId>
-    <artifactId>hm-dianping</artifactId>
+    <artifactId>PiaoLai</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>hm-dianping</name>
+    <name>PiaoLai</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
