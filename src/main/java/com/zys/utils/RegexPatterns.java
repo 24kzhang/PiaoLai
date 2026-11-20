@@ -1,7 +1,8 @@
 package com.zys.utils;
 
 /**
- * @author 虎哥
+ * @author 张又升
+ * @since 2026-11-20
  */
 public abstract class RegexPatterns {
     /**

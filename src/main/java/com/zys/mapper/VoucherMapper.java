@@ -7,12 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author 虎哥
- * @since 2021-12-22
+ * @author 张又升
+ * @since 2026-11-20
  */
 public interface VoucherMapper extends BaseMapper<Voucher> {
 
