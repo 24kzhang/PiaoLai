@@ -1,5 +1,6 @@
 package com.zys.service;
 
+import com.zys.dto.Result;
 import com.zys.entity.ShopType;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -9,4 +10,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IShopTypeService extends IService<ShopType> {
 
+    Result queryTypeList();
 }
