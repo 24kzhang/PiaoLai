@@ -8,8 +8,10 @@ import com.zys.service.ISeckillVoucherService;
 import com.zys.service.IVoucherOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zys.utils.RedisIdWorker;
+import com.zys.utils.SimpleRedisLock;
 import com.zys.utils.UserHolder;
 import org.springframework.aop.framework.AopContext;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,9 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
 
     @Resource
     private RedisIdWorker redisIdWorker;
+
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
 
     @Override
@@ -51,11 +56,26 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
         }
         //5. 一人一单
         Long userId = UserHolder.getUser().getId();
-        synchronized(userId.toString().intern()) {// 去字符串常量池找存在的字符串
-            // 获取代理对象   事务
+//        synchronized(userId.toString().intern()) {// 去字符串常量池找存在的字符串
+//            // 获取代理对象   事务
+//            IVoucherOrderService proxy = (IVoucherOrderService) AopContext.currentProxy();
+//            return proxy.createVoucherOrder(voucherId);
+//        }
+        // 创建锁对象
+        SimpleRedisLock lock = new SimpleRedisLock("order:" + userId, stringRedisTemplate);
+        //获取锁
+        boolean isLock = lock.tryLock(3);
+        // 判断是否获取锁
+        if (!isLock) {
+            return Result.fail("请稍后重试");
+        }
+        try {
             IVoucherOrderService proxy = (IVoucherOrderService) AopContext.currentProxy();
             return proxy.createVoucherOrder(voucherId);
+        } finally {
+            lock.unlock();
         }
+
     }
 
     @Transactional
